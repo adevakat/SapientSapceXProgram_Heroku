@@ -1,0 +1,117 @@
+<div class="dashboard">
+    <header>
+        <h3>SpaceX Launch Programs</h3>
+    </header>
+
+    <div class="dash-content">
+        <div class="sideFilter">
+            <div class="filter-txt">
+                Filters
+            </div>
+            <div class="input-txt">
+                <span>
+                    Lauch Year
+                </span>
+            </div>
+            <div class="filter-buttons">
+                <div *ngFor="let year of launchYears" class="filter-btn">
+                    <button [ngClass]="{'active-btn': year.selected}" (click)="yearSelected(year)">
+                        {{year.val}}
+                    </button>
+                </div>
+            </div><br>
+
+            <div class="input-txt">
+                <span>
+                    Successful Lauch
+                </span>
+            </div>
+            <div class="filter-buttons">
+                <div *ngFor="let flag of launchFlags" class="filter-btn">
+                    <button [ngClass]="{'active-btn': flag.selected}" (click)="launchSuccess(flag)">
+                        {{flag.val}}
+                    </button>
+                </div>
+            </div><br>
+
+            <div class="input-txt">
+                <span>
+                    Successful Landing
+                </span>
+            </div>
+            <div class="filter-buttons">
+                <div *ngFor="let flag of landFlags" class="filter-btn">
+                    <button [ngClass]="{'active-btn': flag.selected}" (click)="landSuccess(flag)">
+                        {{flag.val}}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-body">
+            <div *ngIf="!serverErrFlag && launchData?.length > 0">
+                <div *ngFor="let launch of launchData" class="launch-section">
+                    <div class="rocket-pic">
+                        <img [src]="launch.links.mission_patch_small" alt="">
+                    </div>
+                    <div class="mission-name">
+                        {{launch?.mission_name}} #{{launch?.flight_number}}
+                    </div>
+                    <div class="mission-info">
+                        <div class="label-txt">
+                            Mission Ids:
+                            <ul>
+                                <li *ngFor="let id of launch?.mission_id">
+                                    <span class="label-val">
+                                        {{id}}
+                                   </span>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                        <div class="label-txt">
+                            Launch Year:
+                            <span class="label-val">
+                                {{launch?.launch_year}}
+                            </span>
+                        </div>
+
+                        <div class="label-txt">
+                            Successful Launch:
+                            <span class="label-val">
+                                {{launch?.launch_success}}
+                            </span>
+                        </div>
+
+                        <div class="label-txt">
+                            Successful Landing:
+                            <span class="label-val">
+                                {{launch?.rocket.first_stage.cores[0].land_success}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="launchData?.length === 0">
+                <div class="no-result">
+                    No Result
+                </div>
+            </div>
+
+            <div *ngIf="serverErrFlag">
+                <div class="server-err">
+                    Error while fetching the data from the server. Please try again after sometime.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <span>
+            Developed By: Ashok Devakate
+        </span>
+    </footer>
+</div>
